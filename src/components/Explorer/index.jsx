@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SearchBar from './SearchBar';
 import FoundFriends from './FoundFriends';
 import FriendList from './FriendList';
@@ -14,6 +15,7 @@ class Explorer extends React.Component {
       search: {
         searchText: '',
         gender: 'not-specified',
+        friends: this.props.friends,
       },
     };
   }
@@ -36,7 +38,7 @@ class Explorer extends React.Component {
     return (
       <div className="explorer">
         <SearchBar
-          placeholder="Search friends..."
+          placeholder={this.props.placeholder}
           searchText={search.searchText}
           gender={search.gender}
           onUserChange={this.handleUserChange} />
@@ -46,5 +48,15 @@ class Explorer extends React.Component {
     );
   }
 }
+
+Explorer.propTypes = {
+  placeholder: PropTypes.string,
+  friends: PropTypes.array,
+};
+
+Explorer.defaultProps = {
+  placeholder: 'Search friends...',
+  friends: null,
+};
 
 export default Explorer;

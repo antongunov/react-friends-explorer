@@ -26,7 +26,7 @@ const load = (url) => fetch(url)
 const person = (id) => dbPromise
   .then(db => db.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).get(id));
 
-const search = ({searchText, gender}, offset = 0, limit = 100) => dbPromise
+const search = ({searchText, gender, friends}, offset = 0, limit = 100) => dbPromise
   .then(db => {
     const tx = db.transaction(DB_STORE, 'readonly');
     const store = tx.objectStore(DB_STORE);
@@ -45,6 +45,7 @@ const search = ({searchText, gender}, offset = 0, limit = 100) => dbPromise
         if (
           item.name.toLowerCase().indexOf(searchTextLowerCase) >= 0
           && (gender === 'not-specified' || gender === item.gender)
+          && (!friends || !(friends.length > 0) || friends.includes(item.id))
         ) {
           if (items.length <= limit) items.push(cursor.value);
           total++;

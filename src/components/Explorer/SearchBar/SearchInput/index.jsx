@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './index.scss';
 import debounce from 'assets/js/debounce';
 
 class SearchInput extends React.Component {
@@ -14,8 +15,9 @@ class SearchInput extends React.Component {
 
   render() {
     return (
-      <fieldset>
+      <fieldset className="search-input">
         <input
+          className="search-input__input"
           placeholder={this.props.placeholder}
           type="text"
           // value={this.props.value}

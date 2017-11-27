@@ -1,6 +1,7 @@
 import React from 'react';
 import Sorry from 'components/Sorry';
 import PersonInfo from './PersonInfo';
+import Explorer from 'components/Explorer';
 import friends from 'assets/js/friends';
 
 class Person extends React.Component {
@@ -21,7 +22,12 @@ class Person extends React.Component {
     const person = this.state.person;
     if (person) {
       return (
-        <PersonInfo person={person} />
+        <div className="person">
+          <PersonInfo person={person} />
+          <Explorer
+            placeholder={`Search ${person.name}'s friends...`}
+            friends={person.friends} />
+        </div>
       );
     } else {
       return (
