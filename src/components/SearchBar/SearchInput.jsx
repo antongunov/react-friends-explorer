@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'assets/js/debounce';
 
 class SearchInput extends React.Component {
   constructor(props) {
     super(props);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleChange = debounce(this.handleChange.bind(this), 1000);
   }
 
   handleChange() {
@@ -17,7 +18,7 @@ class SearchInput extends React.Component {
         <input
           placeholder={this.props.placeholder}
           type="text"
-          value={this.props.value}
+          // value={this.props.value}
           ref={(input) => this.inputSearchText = input}
           onChange={this.handleChange} />
       </fieldset>
