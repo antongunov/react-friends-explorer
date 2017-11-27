@@ -21,16 +21,27 @@ if (!live) {
 }
 
 module.exports = {
-  entry: resolve('app/index.js'),
+  entry: resolve('src/index.js'),
   output: {
     path: resolve('build'),
-    filename: 'assets/js/app.js',
+    filename: 'main.js',
+    publicPath: '/',
+  },
+  resolve: {
+    alias: {
+      assets: resolve('src/assets/'),
+      components: resolve('src/components/'),
+    },
+    extensions: ['.js', '.jsx'],
   },
   module: {
     loaders: [
       { test: /\.jsx?$/, loader: 'babel-loader', exclude: /node_modules/ },
       { test: /\.scss$/, loader: 'style-loader!css-loader!sass-loader' },
     ]
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   plugins,
 };

@@ -26,8 +26,26 @@ const load = (url) => fetch(url)
 const person = (id) => dbPromise
   .then(db => db.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).get(id));
 
+const search = ({searchText}) => dbPromise
+  .then(db => {
+    const tx = db.transaction(DB_STORE, 'readonly');
+    const store = tx.objectStore(DB_STORE);
+
+    const items = [];
+    const searchTextLowerCase = searchText.toLowerCase();
+
+    store.openCursor().then(function cursorIterate(cursor) {
+      if (!cursor) return;
+      const item = cursor.value;
+      if (item.name.toLowerCase().indexOf(searchTextLowerCase) >= 0) items.push(cursor.value);
+      return cursor.continue().then(cursorIterate);
+    });
+    return tx.complete.then(() => items);
+  });
+
 export default {
   count,
   load,
   person,
+  search,
 };
