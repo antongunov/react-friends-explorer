@@ -32,18 +32,25 @@ const search = ({searchText}, offset = 0, limit = 100) => dbPromise
     const store = tx.objectStore(DB_STORE);
 
     const items = [];
+    let total = 0;
+
     const searchTextLowerCase = searchText.toLowerCase();
 
     store.openCursor()
       .then(cursor => offset > 0 ? cursor.advance(offset) : Promise.resolve(cursor))
       .then(function cursorIterate(cursor) {
-        if (!cursor || items.length > limit) return;
+        if (!cursor) return;
+
         const item = cursor.value;
-        if (item.name.toLowerCase().indexOf(searchTextLowerCase) >= 0) items.push(cursor.value);
+        if (item.name.toLowerCase().indexOf(searchTextLowerCase) >= 0) {
+          if (items.length <= limit) items.push(cursor.value);
+          total++;
+        }
+
         return cursor.continue().then(cursorIterate);
       });
 
-    return tx.complete.then(() => items);
+    return tx.complete.then(() => ({items, total}));
   });
 
 export default {
