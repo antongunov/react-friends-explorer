@@ -1,5 +1,6 @@
 import React from 'react';
-import Sorry from './Sorry';
+import Sorry from 'components/Sorry';
+import PersonInfo from './PersonInfo';
 import friends from 'assets/js/friends';
 
 class Person extends React.Component {
@@ -20,7 +21,7 @@ class Person extends React.Component {
     const person = this.state.person;
     if (person) {
       return (
-        <div>{person.name}</div>
+        <PersonInfo person={person} />
       );
     } else {
       return (
