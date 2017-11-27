@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const FriendItem = ({name, gender, age, company}) => {
   let info = '';
   if (gender) info = gender;
-  if (age) info = `${info}, ${age} y.o.`;
+  if (age > 0) info = `${info}, ${age} y.o.`;
   if (company) info = `${info}, works for ${company}`;
   return (
     <div className="friend-item">
@@ -18,13 +18,13 @@ const FriendItem = ({name, gender, age, company}) => {
 FriendItem.propTypes = {
   name: PropTypes.string.isRequired,
   gender: PropTypes.string,
-  age: PropTypes.string,
+  age: PropTypes.number,
   company: PropTypes.string,
 };
 
 FriendItem.defaultProps = {
   gender: '',
-  age: '',
+  age: 0,
   company: '',
 };
 

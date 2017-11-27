@@ -26,7 +26,7 @@ const load = (url) => fetch(url)
 const person = (id) => dbPromise
   .then(db => db.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).get(id));
 
-const search = ({searchText}) => dbPromise
+const search = ({searchText}, offset = 0, limit = 100) => dbPromise
   .then(db => {
     const tx = db.transaction(DB_STORE, 'readonly');
     const store = tx.objectStore(DB_STORE);
@@ -34,12 +34,15 @@ const search = ({searchText}) => dbPromise
     const items = [];
     const searchTextLowerCase = searchText.toLowerCase();
 
-    store.openCursor().then(function cursorIterate(cursor) {
-      if (!cursor) return;
-      const item = cursor.value;
-      if (item.name.toLowerCase().indexOf(searchTextLowerCase) >= 0) items.push(cursor.value);
-      return cursor.continue().then(cursorIterate);
-    });
+    store.openCursor()
+      .then(cursor => offset > 0 ? cursor.advance(offset) : Promise.resolve(cursor))
+      .then(function cursorIterate(cursor) {
+        if (!cursor || items.length > limit) return;
+        const item = cursor.value;
+        if (item.name.toLowerCase().indexOf(searchTextLowerCase) >= 0) items.push(cursor.value);
+        return cursor.continue().then(cursorIterate);
+      });
+
     return tx.complete.then(() => items);
   });
 

@@ -20,8 +20,8 @@ class Explorer extends React.Component {
     this.setState({
       search: Object.assign(this.state.search, updater)
     }, () => {
-      friends.search(this.state.search)
-        .then(items => console.log(items.length));
+      friends.search(this.state.search, 0, 30)
+        .then(items => this.setState({friends: items}));
     });
   }
 
