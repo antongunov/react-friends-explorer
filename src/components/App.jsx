@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom'
 import Explorer from './Explorer';
 import Person from './Person';
-import Sorry from 'components/Sorry';
+import Sorry from './Sorry';
 
 const App = () => (
   <Switch>
