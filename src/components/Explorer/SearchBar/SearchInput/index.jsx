@@ -13,6 +13,11 @@ class SearchInput extends React.Component {
     this.props.onUserChange(this.inputSearchText.value);
   }
 
+  componentWillReceiveProps(nextProps) {
+    // hack(
+    this.inputSearchText.value = nextProps.value;
+  }
+
   render() {
     return (
       <fieldset className="search-input">

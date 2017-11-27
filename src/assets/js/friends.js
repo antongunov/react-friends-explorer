@@ -26,7 +26,7 @@ const load = (url) => fetch(url)
 const person = (id) => dbPromise
   .then(db => db.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).get(id));
 
-const search = ({searchText, gender, friends}, offset = 0, limit = 100) => dbPromise
+const search = ({searchText, gender}, friends, offset = 0, limit = 100) => dbPromise
   .then(db => {
     const tx = db.transaction(DB_STORE, 'readonly');
     const store = tx.objectStore(DB_STORE);

@@ -9,24 +9,36 @@ class Explorer extends React.Component {
   constructor(props) {
     super(props);
     this.handleUserChange = this.handleUserChange.bind(this);
-    this.state = {
+    this.state = this.baseState();
+  }
+
+  baseState() {
+    return {
       friends: [],
       total: 0,
       search: {
         searchText: '',
         gender: 'not-specified',
-        friends: this.props.friends,
       },
     };
+  }
+
+  resetState () {
+    this.setState(this.baseState());
   }
 
   handleUserChange(updater) {
     this.setState({
       search: Object.assign(this.state.search, updater)
     }, () => {
-      friends.search(this.state.search, 0, 30)
+      friends.search(this.state.search, this.props.friends, 0, 30)
         .then(({items, total}) => this.setState({friends: items, total}));
     });
+  }
+
+  componentWillReceiveProps() {
+    // need to check new props with current state
+    this.resetState();
   }
 
   render() {
