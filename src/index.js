@@ -13,7 +13,7 @@ friends.count()
     if (cnt > 0) {
       return Promise.resolve();
     } else {
-      root.textContent = 'Creating db abd loading data...';
+      root.textContent = 'Creating db and loading data...';
       return friends.load(FRIENDS_URL);
     }
   })
